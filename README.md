@@ -4,7 +4,7 @@
 
 ## Plot standard ECG chart from data.
 * Support both direct plotting and plotting SVG preview in browser (currently only works on mac)
-* Support saving PNG and SVG to disk
+* Support saving PNG, JPG, SVG or PDF to disk
 * Support customer defined lead order
 * Support customer defined column count
 
@@ -44,7 +44,7 @@ params:
 import ecg_plot
 
 ecg = load_data() # load data should be implemented by yourself 
-ecg_plot.plot(ecg, sample_rate = 500, title = 'ECG 12')
+ecg_plot.plot(ecg, sample_rate=500, title='ECG 12')
 ecg_plot.show()
 
 ```
@@ -55,7 +55,7 @@ ecg_plot.show()
 import ecg_plot
 
 ecg = load_data() # load data should be implemented by yourself 
-ecg_plot.plot_1(ecg[1], sample_rate=500, title = 'ECG')
+ecg_plot.plot_1(ecg[1], sample_rate=500, title='ECG')
 ecg_plot.show()
 ```
 
@@ -65,8 +65,19 @@ ecg_plot.show()
 import ecg_plot
 
 ecg = load_data() # load data should be implemented by yourself 
-ecg_plot.plot_12(ecg, sample_rate = 500, title = 'ECG 12')
-ecg_plot.save_as_png('example_ecg','tmp/')
+ecg_plot.plot_12(ecg, sample_rate=500, title='ECG 12')
+ecg_plot.save_as_png('example_ecg', 'tmp/')
+
+```
+
+#### Save result as pdf
+
+```
+import ecg_plot
+
+ecg = load_data() # load data should be implemented by yourself 
+fig = ecg_plot.plot_12(ecg, sample_rate = 500, title = 'ECG 12')
+ecg_plot.save_as_pdf('example_ecg', fig, 'tmp/')
 
 ```
 
