@@ -51,6 +51,9 @@ def plot_12(
         speed      : signal speed on display, defaults to 50 mm / sec
         voltage    : signal voltage on display, defaults to 20 mm / mV
         line_width : line width, default to 0.6
+
+    # Returns
+        fig       : figure object
     """
     if not lead_order:
         lead_order = list(range(0,len(ecg)))
@@ -88,6 +91,7 @@ def plot_12(
         t_ax.tick_params(axis='x',rotation=90)
        
         _ax_plot(t_ax, np.arange(0, len(ecg[t_lead])*step, step), ecg[t_lead], seconds)
+    return fig
 
 def plot(
         ecg, 
@@ -116,6 +120,9 @@ def plot(
         show_lead_name : show lead name
         show_grid      : show grid
         show_separate_line  : show separate line
+
+    # Returns
+        fig       : figure object
     """
 
     if not lead_order:
@@ -193,6 +200,7 @@ def plot(
                     linewidth=line_width * display_factor, 
                     color=color_line
                     )
+    return fig
         
 
 def plot_1(ecg, sample_rate=500, title = 'ECG', fig_width = 15, fig_height = 2, line_w = 0.5, ecg_amp = 1.8, timetick = 0.2):
@@ -203,8 +211,11 @@ def plot_1(ecg, sample_rate=500, title = 'ECG', fig_width = 15, fig_height = 2, 
         title      : Title which will be shown on top off chart
         fig_width  : The width of the plot
         fig_height : The height of the plot
+
+    # Returns
+        fig       : figure object
     """
-    plt.figure(figsize=(fig_width,fig_height))
+    fig = plt.figure(figsize=(fig_width,fig_height))
     plt.suptitle(title)
     plt.subplots_adjust(
         hspace = 0, 
@@ -220,6 +231,7 @@ def plot_1(ecg, sample_rate=500, title = 'ECG', fig_width = 15, fig_height = 2, 
     #plt.rcParams['lines.linewidth'] = 5
     step = 1.0/sample_rate
     _ax_plot(ax,np.arange(0,len(ecg)*step,step),ecg, seconds, line_w, ecg_amp,timetick)
+    return fig
     
 DEFAULT_PATH = './'
 show_counter = 1
@@ -270,3 +282,14 @@ def save_as_jpg(file_name, path = DEFAULT_PATH):
     plt.ioff()
     plt.savefig(path + file_name + '.jpg')
     plt.close()
+
+def save_as_pdf(file_name, fig, path = DEFAULT_PATH):
+    """Plot multi lead ECG chart.
+    # Arguments
+        file_name: file_name
+        path     : path to save image, defaults to current folder
+    """
+    plt.ioff()
+    fig.savefig(os.path.join(path, file_name + '.pdf'),
+                format='pdf')
+    plt.close(fig)
