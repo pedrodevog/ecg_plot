@@ -161,8 +161,25 @@ def plot(
         color_line  = (0,0,0.7)
 
     if(show_grid):
-        ax.set_xticks(np.arange(x_min,x_max,0.2))    
-        ax.set_yticks(np.arange(y_min,y_max,0.5))
+        ax.set_xticks(np.arange(x_min, x_max, 0.2))    
+        ax.set_yticks(np.arange(y_min, y_max, 0.5))
+
+        # Set tick labels only at every 1.0 interval
+        xtick_labels = []
+        for val in np.arange(x_min, x_max, 0.2):
+            if np.isclose(val % 1.0, 0, atol=1e-8):
+                xtick_labels.append(f"{val:g}")
+            else:
+                xtick_labels.append("")
+        ax.set_xticklabels(xtick_labels)
+
+        ytick_labels = []
+        for val in np.arange(y_min, y_max, 0.5):
+            if np.isclose((val - y_min) % 1.0, 0, atol=1e-8):
+                ytick_labels.append(f"{val:g}")
+            else:
+                ytick_labels.append("")
+        ax.set_yticklabels(ytick_labels)
 
         ax.minorticks_on()
         
@@ -291,5 +308,6 @@ def save_as_pdf(file_name, fig, path = DEFAULT_PATH):
     """
     plt.ioff()
     fig.savefig(os.path.join(path, file_name + '.pdf'),
-                format='pdf')
+                format='pdf',
+                bbox_inches='tight')
     plt.close(fig)
